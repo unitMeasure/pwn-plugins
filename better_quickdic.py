@@ -15,7 +15,7 @@ class BetterQuickDic(plugins.Plugin):
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), silentree12th"
     __version__ = "1.4.6"
     __license__ = "GPL3"
-    __description__ = "Run a quick dictionary scan against captured handshakes. "
+    __description__ = "Run a quick dictionary scan against captured handshakes."
     __name__ = "BetterQuickDic"
     __help__ = "Run a small aircrack scan against captured handshakes and PMKID"
     __dependencies__ = {
@@ -60,8 +60,6 @@ class BetterQuickDic(plugins.Plugin):
             logging.warn(
                 f"[{self.__class__.__name__}] aircrack-ng is not installed!")
 
-        # if self.options['id'] != None and self.options['api'] != None:
-        # self._send_message(filename='Android AP', pwd='12345678')
 
     def on_handshake(self, agent, filename, access_point, client_station):
         display = agent.view()
@@ -108,54 +106,6 @@ class BetterQuickDic(plugins.Plugin):
                 self.text_to_set = ""
                 display.update(force=True)
                 # plugins.on('cracked', access_point, pwd)
-                # if self.options["id"] != None and self.options["api"] != None:
-                #     self._send_message(filename, pwd)
-
-    # def _send_message(self, filename, pwd):
-    #     try:
-    #         security = "WPA"
-    #         filename = filename
-    #         base_filename = os.path.splitext(os.path.basename(filename))[0]
-    #         ssid = base_filename.split("_")[0:-2]
-    #         password = pwd
-    #         wifi_config = "WIFI:S:" + ssid + ";T:" + security + ";P:" + password + ";;"
-    #         # bot = Bot(token=self.options["api"])
-    #         chat_id = int(self.options["id"])
-
-    #         qr = qrcode.QRCode(
-    #             version=None,
-    #             error_correction=qrcode.constants.ERROR_CORRECT_L,
-    #             box_size=10,
-    #             border=4,
-    #         )
-    #         qr.add_data(wifi_config)
-    #         qr.make(fit=True)
-
-    #         # Create an image from the QR code instance
-    #         # img = qr.make_image(fill_color="black", back_color="white")
-    #         q = io.StringIO()
-    #         qr.print_ascii(out=q)
-    #         q.seek(0)
-
-    #         # Convert the image to bytes
-    #         # image_bytes = io.BytesIO()
-    #         # img.save(image_bytes)
-    #         # image_bytes.seek(0)
-
-    #         # Send the image directly as bytes
-    #         # message_text = 'ssid: ' + ssid + ' password: ' + password
-    #         # bot.send_photo(chat_id=chat_id, photo=InputFile(image_bytes, filename=ssid+'-'+password+'.txt'), caption=message_text)
-    #         message_text = f"\nSSID: {ssid}\nPassword: {password}\n```\n{q.read()}\n```"
-    #         # bot.send_message(chat_id=chat_id, text=message_text, parse_mode="Markdown")
-    #         logging.info(message_text)
-    #         logging.info(
-    #             f"[{self.__class__.__name__}] QR code content sent to Telegram."
-    #         )
-
-    #     except Exception as e:
-    #         logging.error(
-    #             f"[{self.__class__.__name__}] Error sending QR code content to Telegram: {str(e)}"
-    #         )
 
     def on_ui_update(self, ui):
         if self.text_to_set:
