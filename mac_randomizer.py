@@ -1,10 +1,10 @@
 import subprocess
 import random
-from pwnagotchi.plugins import BasePlugin
+import pwnagotchi.plugins as plugins
 
-class MACRandomizer(BasePlugin):
-    __author__ = 'Deus Dust'
-    __version__ = '1.0.0'
+class MACRandomizer(plugins.Plugin):
+    __author__ = 'Deus Dust (edited by avipars)'
+    __version__ = '1.0.1'
     __license__ = 'MIT'
 
     def __init__(self):

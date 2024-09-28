@@ -1,9 +1,9 @@
 import subprocess
-from pwnagotchi.plugins import BasePlugin
+import pwnagotchi.plugins as plugins
 
-class WiFiJammer(BasePlugin):
-    __author__ = 'Deus Dust'
-    __version__ = '1.0.0'
+class WiFiJammer(plugins.Plugin):
+    __author__ = 'Deus Dust (edited by avipars)'
+    __version__ = '1.0.1'
     __license__ = 'MIT'
 
     def __init__(self):

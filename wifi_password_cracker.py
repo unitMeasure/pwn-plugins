@@ -1,8 +1,8 @@
 #https://github.com/Deus73/pwnagotchi-plugins/blob/main/wifi_password_cracker.py
 import subprocess
-from pwnagotchi.plugins import BasePlugin
+import pwnagotchi.plugins as plugins
 
-class WiFiPasswordCracker(BasePlugin):
+class WiFiPasswordCracker(plugins.Plugin):
     __author__ = 'Deus Dust (edited by avipars)'
     __version__ = '1.0.1'
     __license__ = 'MIT'

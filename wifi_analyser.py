@@ -1,10 +1,10 @@
 #https://github.com/Deus73/pwnagotchi-plugins/blob/main/wifi_analyser.py
 import subprocess
-from pwnagotchi.plugins import BasePlugin
+import pwnagotchi.plugins as plugins
 
-class WiFiAnalyzer(BasePlugin):
-    __author__ = 'Deus Dust'
-    __version__ = '1.0.0'
+class WiFiAnalyzer(plugins.Plugin):
+    __author__ = 'Deus Dust (edited by avipars)'
+    __version__ = '1.0.1'
     __license__ = 'MIT'
 
     def __init__(self):
