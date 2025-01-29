@@ -11,8 +11,8 @@ import psutil
     Based on orig memtemp plugin by https://github.com/xenDE '''
 
 class MemTemp(plugins.Plugin):
-    __author__ = 'https://github.com/mavotronik/pwnagotchi-plugins'
-    __version__ = '1.2.0'
+    __author__ = 'https://github.com/mavotronik/pwnagotchi-plugins (edited by avipars)'
+    __version__ = '1.2.1'
     __license__ = 'MIT'
     __description__ = 'A plugin that will display memory/cpu/disk usage and temperature'
 
@@ -105,7 +105,7 @@ class MemTemp(plugins.Plugin):
             elif ui.is_waveshare27inch():
                 h_pos = (192, 138)
                 v_pos = (211, 122)
-            elif ui.is_waveshare_v3():
+            elif ui.is_waveshare_v3() or ui.is_waveshare_v4():
                 h_pos = (178, 85)
                 y_pos = (197, 75)
             else:
