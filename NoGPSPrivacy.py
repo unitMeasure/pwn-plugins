@@ -16,7 +16,6 @@ from pwnagotchi.ui.view import BLACK
 
 class NoGPSPrivacy(plugins.Plugin):
     __GitHub__ = "https://github.com/unitMeasure/pwn-plugins/NoGPSPrivacy"
-    __author__ = "avipars"
     __author__ = "Improved by avipars, original by glenn@pegden.com.com"
     __version__ = "0.0.1"
     __license__ = "Private (for now)"
