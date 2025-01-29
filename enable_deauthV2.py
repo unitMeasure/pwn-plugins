@@ -7,7 +7,7 @@ from pwnagotchi.ui.view import BLACK
 import pwnagotchi.ui.fonts as fonts
 
 
-class enable_deauth(plugins.Plugin):
+class enable_deauthV2(plugins.Plugin):
     __author__ = 'Sniffleupagus (edited by avipars)'
     __version__ = '1.0.1'
     __license__ = 'GPL3'
@@ -45,17 +45,15 @@ class enable_deauth(plugins.Plugin):
         except Exception as e:
             logging.warn(repr(e))
 
-        logging.info("[Enable_Deauth] unloading: disabled deauth")
+        logging.info("[enable_deauthV2] unloading: disabled deauth")
 
     # called when everything is ready and the main loop is about to start
     def on_ready(self, agent):
         self._agent = agent
-
-
         # turn on when plugin loads, and off on unload
         agent._config['personality']['deauth'] = self._deauth_enable
 
-        logging.info("[Enable_Deauth] ready: enabled deauth")
+        logging.info("[enable_deauthV2] ready: enabled deauth")
 
     def on_deauthentication(self, agent, access_point, client_station):
         self._count += 1

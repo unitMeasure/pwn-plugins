@@ -7,7 +7,7 @@ from pwnagotchi.ui.components import LabeledValue
 from pwnagotchi.ui.view import BLACK
 import pwnagotchi.ui.fonts as fonts
 
-class enable_assoc(plugins.Plugin):
+class enable_assocV2V2(plugins.Plugin):
     __author__ = 'evilsocket@gmail.com (edited by avipars)'
     __version__ = '1.0.2'
     __license__ = 'GPL3'
@@ -28,7 +28,7 @@ class enable_assoc(plugins.Plugin):
             if self._agent:
                 self._agent._config['personality']['associate'] = False
             ui.remove_element('assoc_count')
-            logging.info("[Enable_Assoc] unloading")
+            logging.info("[enable_assocV2] unloading")
         except Exception as e:
             logging.warn(repr(e))
 
@@ -36,7 +36,7 @@ class enable_assoc(plugins.Plugin):
     def on_ready(self, agent):
         self._agent = agent
         agent._config['personality']['associate'] = True
-        logging.info("[Enable_Assoc] ready: enabled association")
+        logging.info("[enable_assocV2] ready: enabled association")
 
 
     def on_association(self, agent, access_point):
