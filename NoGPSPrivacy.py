@@ -4,20 +4,20 @@ import os
 import asyncio
 import _thread
 
-# import pwnagotchi
-# import pwnagotchi.utils as utils
+import pwnagotchi
+import pwnagotchi.utils as utils
 
 import pwnagotchi.plugins as plugins
 import pwnagotchi.ui.fonts as fonts
 from pwnagotchi.ui.components import LabeledValue
 from pwnagotchi.ui.view import BLACK
-# from pwnagotchi.bettercap import Client
+from pwnagotchi.bettercap import Client
 
 
 class NoGPSPrivacy(plugins.Plugin):
     __GitHub__ = "https://github.com/unitMeasure/pwn-plugins/NoGPSPrivacy"
     __author__ = "Improved by avipars, original by glenn@pegden.com.com"
-    __version__ = "0.0.1"
+    __version__ = "0.0.2.1"
     __license__ = "Private (for now)"
     __description__ = "Privacy nightmare without using GPS"
     __name__ = "NoGPSPrivacy"
@@ -196,3 +196,4 @@ class NoGPSPrivacy(plugins.Plugin):
 
     def on_webhook(self, path, request):
         logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        return "hello there"
