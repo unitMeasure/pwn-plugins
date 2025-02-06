@@ -4,8 +4,8 @@ import os
 import asyncio
 import _thread
 
-import pwnagotchi
-import pwnagotchi.utils as utils
+# import pwnagotchi
+# import pwnagotchi.utils as utils
 
 import pwnagotchi.plugins as plugins
 import pwnagotchi.ui.fonts as fonts
@@ -17,9 +17,9 @@ from pwnagotchi.bettercap import Client
 class NoGPSPrivacy(plugins.Plugin):
     __GitHub__ = "https://github.com/unitMeasure/pwn-plugins/NoGPSPrivacy"
     __author__ = "Improved by avipars, original by glenn@pegden.com.com"
-    __version__ = "0.0.2.1"
+    __version__ = "0.0.2.2"
     __license__ = "Private (for now)"
-    __description__ = "Privacy nightmare without using GPS"
+    __description__ = "Privacy nightmare for devices that don't have a GPS with additional improvements"
     __name__ = "NoGPSPrivacy"
     __dependencies__ = {
         "apt": ["none"],
@@ -52,6 +52,17 @@ class NoGPSPrivacy(plugins.Plugin):
     def on_ready(self, agent):
         logging.info(f"[{self.__class__.__name__}] plugin ready")
         self.hook_ws_events(agent)
+
+    def on_webhook(self, path, request):
+        # maybe provide more info, but this is ok for now
+        return 
+        """<html><head><title>NoGPSPrivacy</title></head><body><ul>
+            <li><strong>WU:</strong> on wifi update</li>
+            <li><strong>AS:</strong> on association</li>
+            <li><strong>DS:</strong> on deauthentication</li>
+            <li><strong>HS:</strong> on handshake</li>
+            <li><strong>NE:</strong> new access point</li>
+            </ul></body></html>"""
 
     def on_wifi_update(self, agent, access_points):
         self.aps_update("WU", agent, access_points)
@@ -102,6 +113,7 @@ class NoGPSPrivacy(plugins.Plugin):
         ui.set("pn_count", "%s/%s" % (self.pn_count, self.pn_count))
 
     async def on_event(self, msg):
+        # TODO: hide events we don't care about
         jmsg = json.loads(msg)
         logging.info(f"[{self.__class__.__name__}]: Event %s" % (jmsg["tag"]))
         if jmsg["tag"] == "wifi.client.probe":
@@ -181,9 +193,6 @@ class NoGPSPrivacy(plugins.Plugin):
                     % (update_type, access_points)
                 )
 
-    def clients_update(self, access_points):
-        pass
-
     def on_unload(self, ui):
         self.running = False
         with ui._lock:
@@ -194,6 +203,5 @@ class NoGPSPrivacy(plugins.Plugin):
             except Exception as e:
                 logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
 
-    def on_webhook(self, path, request):
-        logging.info(f"[{self.__class__.__name__}] webhook pressed")
-        return "hello there"
+    # def clients_update(self, access_points):
+    #     pass

@@ -19,7 +19,6 @@ class enable_deauthV2(plugins.Plugin):
         self._behave_list = []
         self._behave = False
         self._deauth_enable = True
-
         self._current_aps = []
 
     # make web_ui that lists hosts. click to add to behave_list, or deauth
