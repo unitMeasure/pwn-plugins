@@ -113,9 +113,8 @@ class NoGPSPrivacy(plugins.Plugin):
         ui.set("pn_count", "%s/%s" % (self.pn_count, self.pn_count))
 
     async def on_event(self, msg):
-        # TODO: hide events we don't care about
         jmsg = json.loads(msg)
-        logging.info(f"[{self.__class__.__name__}]: Event %s" % (jmsg["tag"]))
+        # logging.info(f"[{self.__class__.__name__}]: Event %s" % (jmsg["tag"]))         # TODO: hide events we don't care about
         if jmsg["tag"] == "wifi.client.probe":
             self.pn_status = "Probe from %s" % jmsg["data"]["essid"]
             logging.info(
@@ -128,7 +127,6 @@ class NoGPSPrivacy(plugins.Plugin):
 
     def hook_ws_events(self, agent):
         # OK aading a second websocket listener is an ugly approach, but without modifying the core code, I cant think of a better way that starting my own thread with my own websock listener
-
         self.agent = agent
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
