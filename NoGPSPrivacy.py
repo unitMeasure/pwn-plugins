@@ -55,14 +55,7 @@ class NoGPSPrivacy(plugins.Plugin):
 
     def on_webhook(self, path, request):
         # maybe provide more info, but this is ok for now
-        return 
-        """<html><head><title>NoGPSPrivacy</title></head><body><ul>
-            <li><strong>WU:</strong> on wifi update</li>
-            <li><strong>AS:</strong> on association</li>
-            <li><strong>DS:</strong> on deauthentication</li>
-            <li><strong>HS:</strong> on handshake</li>
-            <li><strong>NE:</strong> new access point</li>
-            </ul></body></html>"""
+        return "<html><head><title>NoGPSPrivacy</title></head><body><ul>li><strong>WU:</strong> on wifi update</li><li><strong>AS:</strong> on association</li><li><strong>DS:</strong> on deauthentication</li><li><strong>HS:</strong> on handshake</li><li><strong>NE:</strong> new access point</li></ul></body></html>"
 
     def on_wifi_update(self, agent, access_points):
         self.aps_update("WU", agent, access_points)
