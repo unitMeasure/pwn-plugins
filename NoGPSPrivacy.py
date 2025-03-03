@@ -4,15 +4,11 @@ import os
 import asyncio
 import _thread
 
-# import pwnagotchi
-# import pwnagotchi.utils as utils
-
 import pwnagotchi.plugins as plugins
 import pwnagotchi.ui.fonts as fonts
 from pwnagotchi.ui.components import LabeledValue
 from pwnagotchi.ui.view import BLACK
 from pwnagotchi.bettercap import Client
-
 
 class NoGPSPrivacy(plugins.Plugin):
     __GitHub__ = "https://github.com/unitMeasure/pwn-plugins/NoGPSPrivacy"
@@ -193,6 +189,3 @@ class NoGPSPrivacy(plugins.Plugin):
                 logging.info(f"[{self.__class__.__name__}] plugin unloaded")
             except Exception as e:
                 logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
-
-    # def clients_update(self, access_points):
-    #     pass
