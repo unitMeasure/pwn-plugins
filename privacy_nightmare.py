@@ -1,5 +1,5 @@
 #https://github.com/GlennPegden2/privacy-nightmare-pwnagotchi-plugin/blob/master/privacy-nightmare.py
-
+# if you don't have a GPS module, try NOGPSPrivacy instead
 import logging
 import json
 import os

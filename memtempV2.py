@@ -1,30 +1,9 @@
-# https://github.com/jayofelony/pwnagotchi/blob/noai/pwnagotchi/plugins/default/MemTempV2.py (originally from)
+# originally from https://github.com/jayofelony/pwnagotchi/blob/noai/pwnagotchi/plugins/default/memtemp.py but modified by me
 
 # MemTempV2 shows memory infos and cpu temperature
 #
 # mem usage, cpu load, cpu temp, cpu frequency
 #
-###############################################################
-#
-# Updated 18-10-2019 by spees <speeskonijn@gmail.com>
-# - Changed the place where the data was displayed on screen
-# - Made the data a bit more compact and easier to read
-# - removed the label so we wont waste screen space
-# - Updated version to 1.0.1
-#
-# 20-10-2019 by spees <speeskonijn@gmail.com>
-# - Refactored to use the already existing functions
-# - Now only shows memory usage in percentage
-# - Added CPU load
-# - Added horizontal and vertical orientation
-#
-# 19-09-2020 by crahan <crahan@n00.be>
-# - Added CPU frequency
-# - Made field types and order configurable (max 3 fields)
-# - Made line spacing and position configurable
-# - Updated code to dynamically generate UI elements
-# - Changed horizontal UI elements to Text
-# - Updated to version 1.0.2
 ###############################################################
 from pwnagotchi.ui.components import LabeledValue, Text
 from pwnagotchi.ui.view import BLACK
@@ -111,7 +90,7 @@ class MemTempV2(plugins.Plugin):
             # Configure field list
             self.fields = self.options['fields'].split(',')
             self.fields = [x.strip() for x in self.fields if x.strip() in self.ALLOWED_FIELDS.keys()]
-            # self.fields = self.fields[:3]  # limit to the first 3 fields
+            # self.fields = self.fields[:3]  #  removed the 3 first field limit 
         except Exception:
             # Set default value
             self.fields = self.DEFAULT_FIELDS

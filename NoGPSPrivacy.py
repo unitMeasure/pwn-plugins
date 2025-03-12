@@ -1,3 +1,4 @@
+# requires creating a folder for this plugin, and then in config.toml set main.plugins.NoGPSPrivacy.pn_output_path = "your/path"
 import logging
 import json
 import os

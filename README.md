@@ -12,10 +12,6 @@ Tutorial and additional scripts - https://github.com/avipars/pwn-to-own
 
 * agev2 will not work on any image after 2.8.9 (from Jay's repo) as AI functionality has been removed
 
-* memtemp_adv requires psutil to be installed (which may not be available on your device)
-
-* privacy_nightmare will send a lot of warnigns in the logfile if you don't have a GPS set up
+* privacy_nightmare will send a lot of warnings in the logfile if you don't have a GPS set up
 
 * NoGPSPrivacy will not work unless you make a directory to store probe information, and add it to the ```config.toml``` under ```main.plugins.nogpsprivacy.pn_output_path = "your/path/here"```
-
-
