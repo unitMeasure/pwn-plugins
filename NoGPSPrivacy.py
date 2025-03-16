@@ -13,7 +13,7 @@ from pwnagotchi.bettercap import Client
 
 class NoGPSPrivacy(plugins.Plugin):
     __GitHub__ = "https://github.com/unitMeasure/pwn-plugins/NoGPSPrivacy"
-    __author__ = "Improved by avipars, original by glenn@pegden.com.com"
+    __author__ = "original by glenn@pegden.com.com, Improved by avipars"
     __version__ = "0.0.2.2"
     __license__ = "Private (for now)"
     __description__ = "Privacy nightmare for devices that don't have a GPS with additional improvements"
