@@ -103,7 +103,7 @@ TEMPLATE = """
 
 class HandshakesManager(plugins.Plugin):
     __author__ = 'retiolus'
-    __version__ = '1.1.1'
+    __version__ = '1.1.2'
     __license__ = 'GPL3'
     __description__ = 'A plugin for Pwnagotchi to view and manage handshake captures via web UI.'
 
@@ -140,7 +140,7 @@ class HandshakesManager(plugins.Plugin):
                 dir = self.config["bettercap"]["handshakes"]
                 handshake_filename = os.path.basename(path.split("download/")[1])
                 logging.info(f"[Handshakes Manager] serving {dir}/{handshake_filename}")
-                return send_from_directory(directory=dir, filename=handshake_filename, as_attachment=True)
+                return send_from_directory(directory=dir, path=handshake_filename, as_attachment=True)
 
             elif path.startswith("download-all/"):
                 ssid = path.split("download-all/")[1]

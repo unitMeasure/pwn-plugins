@@ -42,7 +42,6 @@ class PrivacyNightmare(plugins.Plugin):
 
 
     def on_ready(self, agent):
-
         self.hook_ws_events(agent)
         self.enable_gps(agent)
 

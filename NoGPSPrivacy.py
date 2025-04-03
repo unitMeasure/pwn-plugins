@@ -1,4 +1,4 @@
-# requires creating a folder for this plugin, and then in config.toml set main.plugins.NoGPSPrivacy.pn_output_path = "your/path"
+#if save_logs requires creating a folder for this plugin, and then in config.toml set main.plugins.NoGPSPrivacy.pn_output_path = "your/path"
 import logging
 import json
 import os
@@ -14,7 +14,7 @@ from pwnagotchi.bettercap import Client
 class NoGPSPrivacy(plugins.Plugin):
     __GitHub__ = "https://github.com/unitMeasure/pwn-plugins/NoGPSPrivacy"
     __author__ = "original by glenn@pegden.com.com, Improved by avipars"
-    __version__ = "0.0.2.2"
+    __version__ = "0.0.2.3"
     __license__ = "Private (for now)"
     __description__ = "Privacy nightmare for devices that don't have a GPS with additional improvements"
     __name__ = "NoGPSPrivacy"
@@ -37,14 +37,15 @@ class NoGPSPrivacy(plugins.Plugin):
 
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
-        if "pn_output_path" not in self.options or (
-            "pn_output_path" in self.options and self.options["pn_output_path"] is None
-        ):
-            logging.debug("pn_output_path not set")
-            return
+        if self.options['save_logs']:
+            if "pn_output_path" not in self.options or (
+                "pn_output_path" in self.options and self.options["pn_output_path"] is None
+            ):
+                logging.debug("pn_output_path not set")
+                return
 
-        if not os.path.exists(self.options["pn_output_path"]):
-            os.makedirs(self.options["pn_output_path"])
+            if not os.path.exists(self.options["pn_output_path"]):
+                os.makedirs(self.options["pn_output_path"])
 
     def on_ready(self, agent):
         logging.info(f"[{self.__class__.__name__}] plugin ready")
@@ -168,13 +169,14 @@ class NoGPSPrivacy(plugins.Plugin):
                         self.pn_status = "AP (%s): %s" % (
                             update_type, hostname)
                         self.pn_count += 1
-                        pn_filename = "%s/pn_ap_%s.json" % (
-                            self.options["pn_output_path"],
-                            hostname,
-                        )
-                        logging.info(f"saving to {pn_filename} ({hostname})")
-                        with open(pn_filename, "w+t") as fp:
-                            json.dump(ap, fp)
+                        if self.options['save_logs']:
+                            pn_filename = "%s/pn_ap_%s.json" % (
+                                self.options["pn_output_path"],
+                                hostname,
+                            )
+                            logging.info(f"saving to {pn_filename} ({hostname})")
+                            with open(pn_filename, "w+t") as fp:
+                                json.dump(ap, fp)
             else:
                 logging.warn(
                     f"[{self.__class__.__name__}]: Empty AP list from %s list is %s"
