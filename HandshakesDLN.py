@@ -69,9 +69,9 @@ class handshakes:
         self.path = path  
         self.ext = ext 
 
-class HandshakesDL(plugins.Plugin):
+class HandshakesDLN(plugins.Plugin):
     __author__ = 'me@sayakb.com and edited by unitMeasure'
-    __version__ = '1.0.1'
+    __version__ = '1.0.2'
     __license__ = 'GPL3'
     __description__ = 'Download handshake captures from web-ui.'
 
@@ -79,7 +79,7 @@ class HandshakesDL(plugins.Plugin):
         self.ready = False
 
     def on_loaded(self):
-        logging.info("[HandshakesDL] plugin loaded")
+        logging.info("[HandshakesDLN] plugin loaded")
 
     def on_config_changed(self, config):
         self.config = config
@@ -108,11 +108,11 @@ class HandshakesDL(plugins.Plugin):
         else:
             dir = self.config['bettercap']['handshakes']
             try:
-                logging.info(f"[HandshakesDL] serving {dir}/{path}")
+                logging.info(f"[HandshakesDLN] serving {dir}/{path}")
                 return send_from_directory(directory=dir, path=path, as_attachment=True)
             except FileNotFoundError:
-                logging.info(f"[HandshakesDL] file not found {dir}/{path}")
+                logging.info(f"[HandshakesDLN] file not found {dir}/{path}")
                 abort(404)
             except Exception as e:
-                logging.info(f"[HandshakesDL] error {str(e)} {dir}/{path}")
+                logging.info(f"[HandshakesDLN] error {str(e)} {dir}/{path}")
                 abort(500)
