@@ -111,4 +111,8 @@ class HandshakesDL(plugins.Plugin):
                 logging.info(f"[HandshakesDL] serving {dir}/{path}")
                 return send_from_directory(directory=dir, path=path, as_attachment=True)
             except FileNotFoundError:
+                logging.info(f"[HandshakesDL] file not found {dir}/{path}")
                 abort(404)
+            except Exception as e:
+                logging.info(f"[HandshakesDL] error {str(e)} {dir}/{path}")
+                abort(500)
