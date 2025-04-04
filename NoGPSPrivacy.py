@@ -14,7 +14,7 @@ from pwnagotchi.bettercap import Client
 class NoGPSPrivacy(plugins.Plugin):
     __GitHub__ = "https://github.com/unitMeasure/pwn-plugins/NoGPSPrivacy"
     __author__ = "original by glenn@pegden.com.com, Improved by avipars"
-    __version__ = "0.0.2.3"
+    __version__ = "0.0.2.4"
     __license__ = "Private (for now)"
     __description__ = "Privacy nightmare for devices that don't have a GPS with additional improvements"
     __name__ = "NoGPSPrivacy"
@@ -37,7 +37,7 @@ class NoGPSPrivacy(plugins.Plugin):
 
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
-        if self.options['save_logs']:
+        if 'save_logs' in self.options:
             if "pn_output_path" not in self.options or (
                 "pn_output_path" in self.options and self.options["pn_output_path"] is None
             ):
@@ -169,7 +169,7 @@ class NoGPSPrivacy(plugins.Plugin):
                         self.pn_status = "AP (%s): %s" % (
                             update_type, hostname)
                         self.pn_count += 1
-                        if self.options['save_logs']:
+                        if 'save_logs' in self.options:
                             pn_filename = "%s/pn_ap_%s.json" % (
                                 self.options["pn_output_path"],
                                 hostname,
