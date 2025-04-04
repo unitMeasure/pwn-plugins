@@ -74,6 +74,7 @@ class HandshakesDLN(plugins.Plugin):
     __version__ = '1.0.2'
     __license__ = 'GPL3'
     __description__ = 'Download handshake captures from web-ui.'
+    __name__ = "HandshakesDLN"
 
     def __init__(self):
         self.ready = False
