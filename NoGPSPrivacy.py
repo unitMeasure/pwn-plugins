@@ -82,7 +82,7 @@ class NoGPSPrivacy(plugins.Plugin):
                 ),
             )
 
-            pos = (122, 94)
+            pos = (130, 94)
             ui.add_element(
                 "pn_count",
                 LabeledValue(
@@ -107,11 +107,11 @@ class NoGPSPrivacy(plugins.Plugin):
         jmsg = json.loads(msg)
         # logging.info(f"[{self.__class__.__name__}]: Event %s" % (jmsg["tag"]))         # TODO: hide events we don't care about
         if jmsg["tag"] == "wifi.client.probe":
-            self.pn_status = "Probe from %s" % jmsg["data"]["essid"]
+            self.pn_status = "Probe: %s" % jmsg["data"]["essid"]
             logging.info(
                 f"[{self.__class__.__name__}]: !!! Probe !!! %s" % (jmsg))
         if jmsg["tag"] == "wifi.ap.new":
-            self.pn_status = "New AP %s" % jmsg["data"]["essid"]
+            self.pn_status = "New AP: %s" % jmsg["data"]["essid"]
             logging.info(
                 f"[{self.__class__.__name__}]: !!! NEW AP !!! %s" % (jmsg))
             self.aps_update("NE", None, jmsg["data"])
