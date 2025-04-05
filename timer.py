@@ -1,13 +1,13 @@
-# https://github.com/IdolonInMachina/pwnagotchi-plugins/blob/master/timer.py
 import logging
 import pwnagotchi.plugins as plugins
 import datetime
-import pandas as pd
+# import pandas as pd
 
+# https://github.com/IdolonInMachina/pwnagotchi-plugins/blob/master/timer.py
 
 class Timer(plugins.Plugin):
     __author__ = 'idoloninmachina@gmail.com'
-    __version__ = '0.1.0'
+    __version__ = '0.1.1'
     __license__ = 'GPL3'
     __description__ = 'Measure the amount of time taken by the pwnagotchi to capture a handshake'
 
@@ -61,12 +61,12 @@ class Timer(plugins.Plugin):
             self.calculate_difference_in_seconds(
                 self.wifi_deauth_time, self.wifi_handshake_time))
 
-        df = pd.DataFrame(self.data, columns=['Time to deauth',
-                                              'Time to handshake',
-                                              'Time between deauth and handshake', ])
-        logging.info('[Timer] data saved')
-        logging.info(df)
-        df.to_csv('/home/pi/data/pwnagotchi_times.csv')
+        # df = pd.DataFrame(self.data, columns=['Time to deauth',
+        #                                       'Time to handshake',
+        #                                       'Time between deauth and handshake', ])
+        # logging.info('[Timer] data saved')
+        # logging.info(df)
+        # df.to_csv('/home/pi/data/pwnagotchi_times.csv')
 
     def calculate_difference_in_seconds(self, past, future):
         difference = future - past
