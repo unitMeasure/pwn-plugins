@@ -9,7 +9,7 @@ import logging
 
 class evil_portal(Plugin):
     __author__ = "avipars"
-    __version__ = "0.0.3"
+    __version__ = "0.0.4"
     __license__ = "GPL3"
     __github__ = "https://github.com/sponsors/avipars"
     __description__ = "Uses Bettercap to create open AP and captive portal with logging."
@@ -30,7 +30,9 @@ class evil_portal(Plugin):
 
     def on_ready(self, agent):
             ssid = self.options.get('ssid', 'FreeWiFi')
-            self._generate_caplet(ssid)
+            channel = self.options.get('channel', 6)
+
+            self._generate_caplet(ssid, channel)
 
             # Ensure portal folder exists
             os.makedirs(self.portal_folder, exist_ok=True)
@@ -73,10 +75,10 @@ class evil_portal(Plugin):
         # with open(self.portal_log, "a") as f:
         #     f.write(message + "\n")
 
-    def _generate_caplet(self, ssid):
+    def _generate_caplet(self, ssid, channel):
         caplet_content = f"""
 set wifi.ap.ssid "{ssid}"
-set wifi.ap.channel 6
+set wifi.ap.channel {channel}
 set wifi.ap.open true
 wifi.recon on
 wifi.ap.start
