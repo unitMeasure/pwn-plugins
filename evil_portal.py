@@ -1,14 +1,15 @@
 
-from pwnagotchi.plugins import BasePlugin
+from pwnagotchi.plugins import Plugin
 import os
 import subprocess
 import signal
+import logging
 
 # this is experimental and not stable
 
-class CaptivePortalBettercap(BasePlugin):
+class CaptivePortalBettercap(Plugin):
     __author__ = "avipars"
-    __version__ = "0.0.1"
+    __version__ = "0.0.2"
     __license__ = "GPL3"
     __github__ = "https://github.com/sponsors/avipars"
     __description__ = "Uses Bettercap to create open AP and captive portal with logging."
@@ -62,12 +63,14 @@ class CaptivePortalBettercap(BasePlugin):
                 self._log("Bettercap did not terminate gracefully, killing...")
                 self.process.kill()
             self.process = None
-        self._log("Plugin unloaded.")
+        self._log("unloaded.")
 
     def _log(self, message):
-        print(f"[CaptivePortalBettercap] {message}")
-        with open(self.portal_log, "a") as f:
-            f.write(message + "\n")
+        logging.info(f"[CaptivePortalBettercap] {message}")
+
+        # print(f"[CaptivePortalBettercap] {message}")
+        # with open(self.portal_log, "a") as f:
+        #     f.write(message + "\n")
 
     def _generate_caplet(self, ssid):
         caplet_content = f"""
