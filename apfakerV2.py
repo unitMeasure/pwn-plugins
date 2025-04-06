@@ -10,12 +10,13 @@ from time import sleep
 from scapy.all import Dot11, Dot11Beacon, Dot11Elt, RadioTap, sendp, RandMAC
 
 
-class APFaker(plugins.Plugin):
+class APFakerV2(plugins.Plugin):
+    __name__ = "APFakerV2"
     __author__ = '33197631+dadav@users.noreply.github.com edited by avipars'
-    __GitHub__ = "https://github.com/dadav/pwnagotchi-custom-plugins/blob/master/apfaker.py"
+    __GitHub__ = "https://github.com/dadav/pwnagotchi-custom-plugins/blob/master/apfakerv2.py"
     __version__ = '2.0.5'
     __license__ = 'GPL3'
-    __description__ = 'Creates fake aps.'
+    __description__ = 'Creates fake aps, now with minor improvements'
     __dependencies__ = {
         'pip': ['scapy'],
     }
@@ -69,17 +70,17 @@ class APFaker(plugins.Plugin):
                     with open(path) as wordlist:
                         self.ssids = wordlist.read().split()
                 except OSError as oserr:
-                    logging.error('[apfaker] %s', oserr)
+                    logging.error('[apfakerv2] %s', oserr)
                     return
         elif isinstance(self.options['ssids'], list):
             self.ssids = self.options['ssids']
         else:
-            logging.error('[apfaker] wtf is %s', self.options['ssids'])
+            logging.error('[apfakerv2] wtf is %s', self.options['ssids'])
             return
 
         self.add_to_ignore_list(self.ssids)
         self.ready = True
-        logging.info('[apfaker] plugin loaded')
+        logging.info('[apfakerv2] plugin loaded')
 
 
     def on_ready(self, agent):
@@ -97,11 +98,11 @@ class APFaker(plugins.Plugin):
         frames = list()
         for idx, ssid in enumerate(self.ssids[:self.options['max']]):
             try:
-                logging.info('[apfaker] creating fake ap with ssid "%s"', ssid)
-                frames.append(APFaker.create_beacon(ssid, password_protected=self.options['password_protected']))
+                logging.info('[apfakerv2] creating fake ap with ssid "%s"', ssid)
+                frames.append(APFakerV2.create_beacon(ssid, password_protected=self.options['password_protected']))
                 agent.view().set('apfake', str(idx + 1))
             except Exception as ex:
-                logging.debug('[apfaker] %s', ex)
+                logging.debug('[apfakerv2] %s', ex)
 
         main_config = agent.config()
 
@@ -144,7 +145,7 @@ class APFaker(plugins.Plugin):
             with open(config_path, "w") as file:
                 file.writelines(config_lines)
 
-            logging.info("[apfaker] Added fake APs to ignore list")
+            logging.info("[apfakerv2] Added fake APs to ignore list")
 
         except Exception as e:
-            logging.error(f"[apfaker] Failed to update ignore list: {e}")
+            logging.error(f"[apfakerv2] Failed to update ignore list: {e}")

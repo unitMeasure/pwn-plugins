@@ -9,24 +9,28 @@ import logging
 
 class evil_portal(Plugin):
     __author__ = "avipars"
-    __version__ = "0.0.4"
+    __version__ = "0.0.4.1"
     __license__ = "GPL3"
+    __name__ = "evil_portal"
     __github__ = "https://github.com/sponsors/avipars"
     __description__ = "Uses Bettercap to create open AP and captive portal with logging."
 
     def __init__(self):
+        self.mode = 'MANU' 
         self.process = None
         self.caplet_path = "/root/captive.cap"
         self.portal_folder = "/root/captive_portal/"
         self.portal_log = "/root/portal_logs.txt"
 
     def on_loaded(self):
-        logging.info("evil_portal loaded. %s" % repr(self.options))
-
+        logging.info("evil_portal loaded with options: %s", repr(self.options))
+        # Check that Bettercap is installed and working before anything else.
+        if not self.check_bettercap():
+            logging.error("[evil_portal] Bettercap is not installed or not working. Aborting initialization.")
+            return
 
     def on_config_changed(self, config):
         logging.info("evil_portal config change. %s" % repr(self.options))
-
 
     def on_ready(self, agent):
             ssid = self.options.get('ssid', 'FreeWiFi')
@@ -97,3 +101,15 @@ dns.spoof on
             f.write(caplet_content)
         self._log(f"Caplet generated at {self.caplet_path}")
 
+    def check_bettercap(self):
+        """Checks if Bettercap is installed and working by running 'bettercap --version'."""
+        try:
+            result = subprocess.run(["bettercap", "--version"], capture_output=True, text=True, timeout=5)
+            if result.returncode == 0:
+                self._log("Bettercap is installed and working: " + result.stdout.strip())
+                return True
+            else:
+                self._log("Bettercap returned an error: " + result.stderr.strip())
+        except Exception as e:
+            self._log(f"Error checking Bettercap: {e}")
+        return False

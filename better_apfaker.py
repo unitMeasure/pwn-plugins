@@ -11,7 +11,7 @@ from time import sleep
 from scapy.all import Dot11, Dot11Beacon, Dot11Elt, RadioTap, sendp, RandMAC
 
 
-class APFaker(plugins.Plugin):
+class Better_APFaker(plugins.Plugin):
     __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), 33197631+dadav@users.noreply.github.com"
     __version__ = "2.0.5"
@@ -110,7 +110,7 @@ class APFaker(plugins.Plugin):
                     f'[{self.__class__.__name__}] creating fake ap with ssid "%s"', ssid
                 )
                 frames.append(
-                    APFaker.create_beacon(
+                    Better_APFaker.create_beacon(
                         ssid, password_protected=self.options["password_protected"]
                     )
                 )
