@@ -7,9 +7,9 @@ import logging
 
 # this is experimental and not stable
 
-class CaptivePortalBettercap(Plugin):
+class evil_portal(Plugin):
     __author__ = "avipars"
-    __version__ = "0.0.2"
+    __version__ = "0.0.3"
     __license__ = "GPL3"
     __github__ = "https://github.com/sponsors/avipars"
     __description__ = "Uses Bettercap to create open AP and captive portal with logging."
@@ -21,11 +21,12 @@ class CaptivePortalBettercap(Plugin):
         self.portal_log = "/root/portal_logs.txt"
 
     def on_loaded(self):
-        self._log("CaptivePortalBettercap loaded.")
+        logging.info("evil_portal loaded. %s" % repr(self.options))
+
 
     def on_config_changed(self, config):
-        self.options = config['bettercap_captive_portal']
-        self._log(f"Config loaded: SSID = {self.options.get('ssid', 'FreeWiFi')}")
+        logging.info("evil_portal config change. %s" % repr(self.options))
+
 
     def on_ready(self, agent):
             ssid = self.options.get('ssid', 'FreeWiFi')
@@ -66,9 +67,9 @@ class CaptivePortalBettercap(Plugin):
         self._log("unloaded.")
 
     def _log(self, message):
-        logging.info(f"[CaptivePortalBettercap] {message}")
+        logging.info(f"[evil_portal] {message}")
 
-        # print(f"[CaptivePortalBettercap] {message}")
+        # print(f"[evil_portal] {message}")
         # with open(self.portal_log, "a") as f:
         #     f.write(message + "\n")
 
