@@ -78,9 +78,9 @@ class APFakerV2(plugins.Plugin):
             logging.error('[apfakerv2] wtf is %s', self.options['ssids'])
             return
 
-        self.add_to_ignore_list(self.ssids)
         self.ready = True
         logging.info('[apfakerv2] plugin loaded')
+        self.add_to_ignore_list(self.ssids)
 
 
     def on_ready(self, agent):

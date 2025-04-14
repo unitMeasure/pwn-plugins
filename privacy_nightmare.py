@@ -69,8 +69,6 @@ class PrivacyNightmare(plugins.Plugin):
                                                    position=pos,
                                                    label_font=fonts.Small, text_font=fonts.Small))
 
-
-
     def on_ui_update(self, ui):
             ui.set('pn_status', "PN: %s" % (self.pn_status))
             ui.set('pn_count', "PN: %s/%s" % (self.pn_count, self.pn_count))
