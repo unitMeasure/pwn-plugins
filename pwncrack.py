@@ -1,4 +1,4 @@
-# https://github.com/Terminatoror/pwncrack-addons/blob/main/pwncrack.py
+# CODE IS FROM https://github.com/Terminatoror/pwncrack-addons/blob/main/pwncrack.py
 import time
 import os
 import subprocess
