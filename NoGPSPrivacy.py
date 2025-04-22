@@ -12,7 +12,7 @@ from pwnagotchi.ui.view import BLACK
 from pwnagotchi.bettercap import Client
 
 class NoGPSPrivacy(plugins.Plugin):
-    __GitHub__ = "https://github.com/unitMeasure/pwn-plugins/NoGPSPrivacy"
+    __GitHub__ = "https://github.com/unitMeasure/pwn-plugins/"
     __author__ = "original by glenn@pegden.com.com, Improved by avipars"
     __version__ = "0.0.2.5"
     __license__ = "Private (for now)"
