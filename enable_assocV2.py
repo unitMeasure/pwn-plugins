@@ -7,9 +7,9 @@ from pwnagotchi.ui.components import LabeledValue
 from pwnagotchi.ui.view import BLACK
 import pwnagotchi.ui.fonts as fonts
 
-class enable_assocV2V2(plugins.Plugin):
+class enable_assocV2(plugins.Plugin):
     __author__ = 'evilsocket@gmail.com (edited by avipars)'
-    __version__ = '1.0.2'
+    __version__ = '1.0.2.1'
     __license__ = 'GPL3'
     __description__ = 'Enable and disable ASSOC on the fly. Enabled when plugin loads, disabled when plugin unloads. No Touch screen here'
 

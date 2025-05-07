@@ -112,4 +112,4 @@ class fix_region(plugins.Plugin):
 
     def on_webhook(self, path, request):
         # maybe provide more info, but this is ok for now
-        return f"<html><head><title>fix_region</title></head><body><p>Region: {REGION}</p></body></html>"
+        return f"<html><head><title>fix_region</title></head><body><p>Current Region: {REGION}</p></body></html>"

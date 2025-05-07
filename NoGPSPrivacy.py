@@ -14,7 +14,7 @@ from pwnagotchi.bettercap import Client
 class NoGPSPrivacy(plugins.Plugin):
     __GitHub__ = "https://github.com/unitMeasure/pwn-plugins/"
     __author__ = "original by glenn@pegden.com.com, Improved by avipars"
-    __version__ = "0.0.2.5"
+    __version__ = "0.0.2.6"
     __license__ = "Private (for now)"
     __description__ = "Privacy nightmare for devices that don't have a GPS with additional improvements"
     __name__ = "NoGPSPrivacy"
@@ -124,7 +124,7 @@ class NoGPSPrivacy(plugins.Plugin):
             self._event_poller, (asyncio.get_event_loop(),))
 
     def _event_poller(self, loop):
-        while True:
+        while self.running:
             logging.info(f"[{self.__class__.__name__}]: Probe listener up!")
             self.pn_status = "Probe listner up!"
             try:

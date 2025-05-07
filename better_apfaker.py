@@ -14,7 +14,7 @@ from scapy.all import Dot11, Dot11Beacon, Dot11Elt, RadioTap, sendp, RandMAC
 class Better_APFaker(plugins.Plugin):
     __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), 33197631+dadav@users.noreply.github.com"
-    __version__ = "2.0.5"
+    __version__ = "2.0.5.1"
     __license__ = "GPL3"
     __description__ = "Creates fake aps."
     __name__ = "Better_APFaker"
@@ -147,6 +147,7 @@ class Better_APFaker(plugins.Plugin):
         with ui._lock:
             try:
                 self.stop = True
+                self.shutdown = True
                 ui.remove_element("apfake")
                 logging.info(f"[{self.__class__.__name__}] plugin unloaded")
             except Exception as e:

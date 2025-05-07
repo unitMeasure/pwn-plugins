@@ -14,7 +14,7 @@ class APFakerV2(plugins.Plugin):
     __name__ = "APFakerV2"
     __author__ = '33197631+dadav@users.noreply.github.com edited by avipars'
     __GitHub__ = "https://github.com/dadav/pwnagotchi-custom-plugins/blob/master/apfakerv2.py"
-    __version__ = '2.0.5'
+    __version__ = '2.0.5.1'
     __license__ = 'GPL3'
     __description__ = 'Creates fake aps, now with minor improvements'
     __dependencies__ = {
@@ -119,8 +119,13 @@ class APFakerV2(plugins.Plugin):
                            label_font=fonts.Bold, text_font=fonts.Medium))
 
     def on_unload(self, ui):
+        self.ready = False
+        self.shutdown = True
         with ui._lock:
-            ui.remove_element('apfake')
+            try:
+                ui.remove_element('apfake')
+            except Exception as e:
+                logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
 
     def add_to_ignore_list(self, ssids):
         """Dynamically adds fake SSIDs to Pwnagotchi's ignore list."""

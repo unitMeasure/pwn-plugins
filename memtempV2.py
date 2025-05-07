@@ -17,7 +17,7 @@ class MemTempV2(plugins.Plugin):
     __author__ = 'https://github.com/xenDE (original) and modified by https://github.com/unitMeasure'
     __version__ = '0.0.1'
     __license__ = 'GPL3'
-    __description__ = 'A plugin that will display memory, cpu usage, load, and temperature'
+    __description__ = 'A plugin that will display memory, cpu usage, load, and temperature, can show as many as you want'
 
     ALLOWED_FIELDS = {
         'mem': 'mem_usage',
@@ -176,20 +176,26 @@ class MemTempV2(plugins.Plugin):
 
     def on_unload(self, ui):
         with ui._lock:
-            if self.options['orientation'] == "vertical":
-                for idx, field in enumerate(self.fields):
-                    ui.remove_element(f"MemTempV2_{field}")
-            else:
-                # default to horizontal
-                ui.remove_element('MemTempV2_header')
-                ui.remove_element('MemTempV2_data')
+            try:
+                if self.options['orientation'] == "vertical":
+                    for idx, field in enumerate(self.fields):
+                        ui.remove_element(f"MemTempV2_{field}")
+                else:
+                    # default to horizontal
+                    ui.remove_element('MemTempV2_header')
+                    ui.remove_element('MemTempV2_data')
+            except Exception as e:
+                logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
 
     def on_ui_update(self, ui):
         with ui._lock:
-            if self.options['orientation'] == "vertical":
-                for idx, field in enumerate(self.fields):
-                    ui.set(f"MemTempV2_{field}", getattr(self, self.ALLOWED_FIELDS[field])())
-            else:
-                # default to horizontal
-                data = " ".join([self.pad_text(getattr(self, self.ALLOWED_FIELDS[x])()) for x in self.fields])
-                ui.set('MemTempV2_data', data)
+            try:
+                if self.options['orientation'] == "vertical":
+                    for idx, field in enumerate(self.fields):
+                        ui.set(f"MemTempV2_{field}", getattr(self, self.ALLOWED_FIELDS[field])())
+                else:
+                    # default to horizontal
+                    data = " ".join([self.pad_text(getattr(self, self.ALLOWED_FIELDS[x])()) for x in self.fields])
+                    ui.set('MemTempV2_data', data)
+            except Exception as e:
+                logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
