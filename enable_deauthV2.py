@@ -9,7 +9,7 @@ import pwnagotchi.ui.fonts as fonts
 
 class enable_deauthV2(plugins.Plugin):
     __author__ = 'Sniffleupagus (edited by avipars)'
-    __version__ = '1.0.1'
+    __version__ = '1.0.1.1'
     __license__ = 'GPL3'
     __description__ = 'Enable and disable DEAUTH on the fly. Enabled when plugin loads, disabled when plugin unloads. No Touch screen here'
 
@@ -21,12 +21,9 @@ class enable_deauthV2(plugins.Plugin):
         self._deauth_enable = True
         self._current_aps = []
 
-    # make web_ui that lists hosts. click to add to behave_list, or deauth
-    # button to toggle
-
     # called when the plugin is loaded
     def on_loaded(self):
-        logging.info("[EnableDeauth] loaded %s" % repr(self.options))
+        logging.info("[enable_deauthV2] loaded %s" % repr(self.options))
         self._count = 0
 
         # set personality.deauth to this when ready
@@ -39,10 +36,11 @@ class enable_deauthV2(plugins.Plugin):
     def on_unload(self, ui):
         if self._agent:
             self._agent._config['personality']['deauth'] = False
-        try:
-            ui.remove_element('deauth_count')
-        except Exception as e:
-            logging.warn(repr(e))
+        with ui._lock:
+            try:
+                ui.remove_element('deauth_count')
+            except Exception as e:
+                logging.warn(repr(e))
 
         logging.info("[enable_deauthV2] unloading: disabled deauth")
 
@@ -93,15 +91,20 @@ class enable_deauthV2(plugins.Plugin):
             logging.info("Home networks visible. Pausing")
             if self._ui:
                 d_label = self._ui._state._state['deauth_count']
-                d_label.label = d_label.label.lower()
+                try:
+                    d_label.label = d_label.label.lower()
+                except Exception as e:
+                    d_label.text = d_label.text.lower()
         elif self._behave and not oh_behave:
             self._behave = False
             logging.info("Home networks gone. Enabled: %s", self._deauth_enable)
             agent._config['personality']['deauth'] = self._deauth_enable
             if self._ui:
                 d_label = self._ui._state._state['deauth_count']
-                d_label.label = d_label.label.capitalize()
-
+                try:
+                    d_label.label = d_label.label.capitalize()
+                except Exception as e:
+                    d_label.text = d_label.text.capitalize()
 
     # Switch off deauths as soon as a home network shows up
     def on_bcap_wifi_ap_new(self, agent, event):
@@ -117,8 +120,10 @@ class enable_deauthV2(plugins.Plugin):
                     agent._config['personality']['deauth'] = False
                     if self._ui:
                         d_label = self._ui._state._state['deauth_count']
-                        d_label.label = d_label.label.lower()
-
+                        try:
+                            d_label.label = d_label.label.lower()
+                        except Exception as e:
+                            d_label.text = d_label.text.lower()
         except Exception as e:
             logging.exception(repr(e))
 

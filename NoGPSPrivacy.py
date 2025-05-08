@@ -116,7 +116,7 @@ class NoGPSPrivacy(plugins.Plugin):
             self.aps_update("NE", None, jmsg["data"])
 
     def hook_ws_events(self, agent):
-        # OK aading a second websocket listener is an ugly approach, but without modifying the core code, I cant think of a better way that starting my own thread with my own websock listener
+        # OK adding a second websocket listener is an ugly approach, but without modifying the core code, I cant think of a better way that starting my own thread with my own websock listener
         self.agent = agent
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)

@@ -16,7 +16,7 @@ from pwnagotchi.ui.view import BLACK
 from pwnagotchi.bettercap import Client
 
 class PrivacyNightmare(plugins.Plugin):
-    __author__ = 'glenn@pegden.com.com'
+    __author__ = 'glenn@pegden.com.com with minor edits from @avipars'
     __version__ = '0.0.1'
     __license__ = 'Private (for now)'
     __description__ = 'Private Nightmare. Eavesdropping metadata for fun and profit (well, education and awareness mostly)'
@@ -30,7 +30,6 @@ class PrivacyNightmare(plugins.Plugin):
         self.pn_gps_coords = None
 
     def on_loaded(self):
-
         logging.info("privacy nightmare plugin loaded")
 
         if 'pn_output_path' not in self.options or ('pn_output_path' in self.options and self.options['pn_output_path'] is None):
@@ -74,7 +73,6 @@ class PrivacyNightmare(plugins.Plugin):
             ui.set('pn_count', "PN: %s/%s" % (self.pn_count, self.pn_count))
 
     async def on_event(self, msg):
-
          jmsg = json.loads(msg)
          logging.info("PN: Event %s" % (jmsg['tag']))
          if jmsg['tag'] == "wifi.client.probe":
@@ -90,8 +88,7 @@ class PrivacyNightmare(plugins.Plugin):
 
 
     def hook_ws_events(self,agent):
-        # OK aading a second websocket listener is an ugly approach, but without modifying the core code, I cant think of a better way that starting my own thread with my own websock listener
-
+        # OK adding a second websocket listener is an ugly approach, but without modifying the core code, I cant think of a better way that starting my own thread with my own websock listener
         self.agent = agent
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
@@ -99,7 +96,6 @@ class PrivacyNightmare(plugins.Plugin):
 
 
     def _event_poller(self, loop):
-
         while True:
             logging.info("Probe listener up!")
             self.pn_status = "Probe listner up!"
@@ -111,7 +107,6 @@ class PrivacyNightmare(plugins.Plugin):
 
 
     def enable_gps(self,agent):
-
         # TODO: Can I call the gps module direct? Would using gpsd be a better idea?
         if 'gps_device' in self.options:
             if os.path.exists(self.options["gps_device"]):
@@ -151,9 +146,7 @@ class PrivacyNightmare(plugins.Plugin):
             self.gps_hot = False
 
     def aps_update(self, update_type, agent, access_points):
-
         if self.running:
-
             #If we were called from the agent, update the gps, if not we'll have to make do with the last known ones
             if agent != None:
                 self.get_gps(agent.session())
