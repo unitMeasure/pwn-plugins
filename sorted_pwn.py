@@ -107,19 +107,37 @@ TEMPLATE = """
 {% block script %}
     var searchInput = document.getElementById("searchText");
     searchInput.onkeyup = function() {
-        var filter, table, tr, td, i, txtValue;
+        var filter, table, tr, td, i, j, txtValue, rowContainsFilter;
         filter = searchInput.value.toUpperCase();
         table = document.getElementById("tableOptions");
         if (table) {
             tr = table.getElementsByTagName("tr");
 
             for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[0];
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    }else{
+                // Skip header rows if they exist and you don't want to filter them
+                // For example, if your header is in a <thead>, you could get rows from <tbody> instead
+                // Or check if tr[i].parentNode.tagName === 'THEAD' and continue
+
+                rowContainsFilter = false; // Flag to check if any td in the current row matches
+                tds = tr[i].getElementsByTagName("td");
+
+                for (j = 0; j < tds.length; j++) {
+                    let currentTd = tds[j];
+                    if (currentTd) {
+                        txtValue = currentTd.textContent || currentTd.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            rowContainsFilter = true;
+                            break; // Found a match in this row, no need to check other tds
+                        }
+                    }
+                }
+
+                if (rowContainsFilter) {
+                    tr[i].style.display = "";
+                } else {
+                    // Only hide if it's not a header row (th)
+                    // This check is basic, if you have th in tbody, you might need a more specific check
+                    if (tr[i].getElementsByTagName("th").length === 0) {
                         tr[i].style.display = "none";
                     }
                 }
@@ -148,7 +166,7 @@ TEMPLATE = """
 
 class sorted_pwn(plugins.Plugin):
     __author__ = '37124354+dbukovac@users.noreply.github.com edited by avipars'
-    __version__ = '0.0.2'
+    __version__ = '0.0.2.1'
     __license__ = 'GPL3'
     __description__ = 'List cracked passwords from any potfile found in the handshakes directory'
     __github__ = 'https://github.com/evilsocket/pwnagotchi-plugins-contrib/blob/df9758065bd672354b3fa2a3299f4a8d80c8fd6a/wpa-sec-list.py'
