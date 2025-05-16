@@ -11,7 +11,7 @@ class probeReq(plugins.Plugin):
     __editor__ = 'avipars'
     __version__ = "0.0.0.3"
     __license__ = "GPL3"
-    __description__ = "Listens for Wi-Fi probe requests and displays them on screen"
+    __description__ = "Listens for Wi-Fi probe requests and displays them on screen and in your logs"
     __name__ = "probeReq"
     __defaults__ = {
         "enabled": False
