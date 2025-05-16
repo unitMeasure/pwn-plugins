@@ -20,6 +20,7 @@ To use these plugins, append this URL to the `main.custom_plugin_repos` array in
 | **NoGPSPrivacy** | Fork of `privacy_nightmare` with fixes for non-GPS setups. Captures metadata without needing GPS. | `main.plugins.nogpsprivacy.pn_output_path = "your/path/here"` |
 | **enable_assocV2** | Toggle association attacks with a button (no touchscreen dependency). | None required |
 | **enable_deauthV2** | Toggle deauthentication attacks with a button (no touchscreen dependency). | None required |
+| **probeReq** | View Wi-Fi Probe requests on screen (and in your logs too) | None required |
 
 ## Known Issues
 
