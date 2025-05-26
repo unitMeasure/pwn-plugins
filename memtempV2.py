@@ -16,7 +16,7 @@ import logging
 class MemTempV2(plugins.Plugin):
     __author__ = 'https://github.com/xenDE'
     __version__ = '0.0.1'
-    __editor__ = 'https://github.com/unitMeasure/pwn-plugins'
+    __editor__ = 'avipars'
     __license__ = 'GPL3'
     __description__ = 'A plugin that will display memory, cpu usage, load, and temperature, can show as many as you want'
 

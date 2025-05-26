@@ -16,7 +16,8 @@ from pwnagotchi.ui.view import BLACK
 from pwnagotchi.bettercap import Client
 
 class PrivacyNightmare(plugins.Plugin):
-    __author__ = 'glenn@pegden.com.com with minor edits from @avipars'
+    __author__ = 'glenn@pegden.com.com'
+    __editor__ = 'avipars'
     __version__ = '0.0.1'
     __license__ = 'Private (for now)'
     __description__ = 'Private Nightmare. Eavesdropping metadata for fun and profit (well, education and awareness mostly)'

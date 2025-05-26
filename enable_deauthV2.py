@@ -8,7 +8,8 @@ import pwnagotchi.ui.fonts as fonts
 
 
 class enable_deauthV2(plugins.Plugin):
-    __author__ = 'Sniffleupagus (edited by avipars)'
+    __author__ = 'Sniffleupagus'
+    __editor__ = 'avipars'
     __version__ = '1.0.1.1'
     __license__ = 'GPL3'
     __description__ = 'Enable and disable DEAUTH on the fly. Enabled when plugin loads, disabled when plugin unloads. No Touch screen here'

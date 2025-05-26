@@ -9,8 +9,9 @@ import pwnagotchi.ui.fonts as fonts
 #https://github.com/Sniffleupagus/pwnagotchi_plugins/pull/6
 
 class enable_assocV2(plugins.Plugin):
-    __author__ = 'evilsocket@gmail.com (edited by Sniffleupagus then avipars)'
+    __author__ = 'evilsocket@gmail.com'
     __version__ = '1.0.2.1'
+    __editor__ = '(edited by Sniffleupagus then avipars)'
     __license__ = 'GPL3'
     __description__ = 'Enable and disable ASSOC on the fly. Enabled when plugin loads, disabled when plugin unloads. No Touch screen here'
 

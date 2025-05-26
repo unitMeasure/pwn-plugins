@@ -165,7 +165,8 @@ TEMPLATE = """
 """
 
 class sorted_pwn(plugins.Plugin):
-    __author__ = '37124354+dbukovac@users.noreply.github.com edited by avipars'
+    __author__ = '37124354+dbukovac@users.noreply.github.com'
+    __editor__ = 'avipars'
     __version__ = '0.0.2.1'
     __license__ = 'GPL3'
     __description__ = 'List cracked passwords from any potfile found in the handshakes directory'
@@ -201,7 +202,7 @@ class sorted_pwn(plugins.Plugin):
                             if len(fields) < 2:
                                 continue
 
-                            # to deal with both pwncrack and wpa-sec format
+                            # to deal with both pwncrack and wpa-sec format, take last two fields only
                             ssid = fields[-2].strip()
                             password = fields[-1].strip()
 

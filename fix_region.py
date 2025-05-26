@@ -67,7 +67,8 @@ SH_PATH = '/root/network-fix.sh'
 
 class fix_region(plugins.Plugin):
     __name__ = 'Fix_Region'
-    __author__ = '@V0rT3x https://github.com/V0r-T3x edited by @avipars'
+    __author__ = '@V0rT3x https://github.com/V0r-T3x'
+    __editor__ = 'avipars'
     __version__ = '1.0.0.1'
     __license__ = 'GPL3'
     __description__ = 'Let you change the iw region to unlock channel'
