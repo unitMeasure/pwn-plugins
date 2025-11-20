@@ -27,8 +27,9 @@ To use these plugins, append this URL to the `main.custom_plugin_repos` array in
 
 - `privacy_nightmare` logs frequent warnings if GPS is not set up.
 - `NoGPSPrivacy` requires a directory to store probe info and a config entry:  
-  `main.plugins.nogpsprivacy.pn_output_path = "your/path/here"`
-- Both `privacy_nightmare` and `NoGPSPrivacy` may keep threads alive after plugin unload. To fix: disable the plugin and restart Pwnagotchi.
+
+`main.plugins.nogpsprivacy.pn_output_path = "your/path/here"`
+- Both `privacy_nightmare` and `NoGPSPrivacy` may keep threads alive after plugin unload. To fix: disable the plugin and restart Pwnagotchi or use probeReq instead (no gps and only logs probes) 
 
 More on the way! 
 
