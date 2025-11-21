@@ -1,4 +1,8 @@
+# Consider looking at probeReq plugin instead! 
+
 #if save_logs requires creating a folder for this plugin, and then in config.toml set main.plugins.NoGPSPrivacy.pn_output_path = "your/path"
+#https://github.com/GlennPegden2/privacy-nightmare-pwnagotchi-plugin/blob/master/privacy-nightmare.py
+
 import logging
 import json
 import os

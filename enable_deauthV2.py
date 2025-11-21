@@ -6,7 +6,7 @@ from pwnagotchi.ui.components import LabeledValue
 from pwnagotchi.ui.view import BLACK
 import pwnagotchi.ui.fonts as fonts
 
-
+# https://github.com/Sniffleupagus/pwnagotchi_plugins/
 class enable_deauthV2(plugins.Plugin):
     __author__ = 'Sniffleupagus'
     __editor__ = 'avipars'

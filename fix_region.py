@@ -1,4 +1,4 @@
-# https://github.com/V0r-T3x/pwnagotchi_plugins/blob/main/plugins/fix_region.py
+# https://github.com/V0r-T3x/pwnagotchi_plugins/pull/6
 """
 Special thanks to Dal/FikolmijReturns
 for his network-fix service.

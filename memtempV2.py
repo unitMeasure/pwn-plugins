@@ -1,4 +1,4 @@
-# originally from https://github.com/jayofelony/pwnagotchi/blob/noai/pwnagotchi/plugins/default/memtemp.py but modified by me
+# https://github.com/jayofelony/pwnagotchi/pull/436 
 
 # MemTempV2 shows memory infos and cpu temperature
 #
