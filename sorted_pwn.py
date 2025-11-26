@@ -153,11 +153,24 @@ TEMPLATE = """
         <tr>
             <th>SSID</th>
             <th>Password</th>
+            <th>Other</th>
         </tr>
         {% for p in passwords %}
             <tr>
                 <td data-label="SSID">{{p["ssid"]}}</td>
                 <td data-label="Password">{{p["password"]}}</td>
+                <td data-label="Other">
+                    {% set other = p.get("other_fields") %}
+                    {% if other %}
+                        {% if other is iterable and other is not string %}
+                            {{ other | join(", ") }}
+                        {% else %}
+                            {{ other }}
+                        {% endif %}
+                    {% else %}
+                        <span>None</span>
+                    {% endif %}
+                </td>
             </tr>
         {% endfor %}
     </table>
@@ -167,7 +180,7 @@ TEMPLATE = """
 class sorted_pwn(plugins.Plugin):
     __author__ = '37124354+dbukovac@users.noreply.github.com'
     __editor__ = 'avipars'
-    __version__ = '0.0.2.1'
+    __version__ = '0.0.2.2'
     __license__ = 'GPL3'
     __description__ = 'List cracked passwords from any potfile found in the handshakes directory'
     __github__ = 'https://github.com/evilsocket/pwnagotchi-plugins-contrib/blob/df9758065bd672354b3fa2a3299f4a8d80c8fd6a/wpa-sec-list.py'
@@ -202,16 +215,25 @@ class sorted_pwn(plugins.Plugin):
                             if len(fields) < 2:
                                 continue
 
-                            # to deal with both pwncrack and wpa-sec format, take last two fields only
-                            ssid = fields[-2].strip()
-                            password = fields[-1].strip()
+                            # to deal with both pwncrack and wpa-sec format
+                            ssid = fields[-2].strip() # 2nd to last
+                            password = fields[-1].strip() # last one
+                            other_fields = fields[:-2]   # everything before ssid/password
 
                             key = (ssid, password)
                             if key not in unique_entries:
                                 unique_entries[key] = {
                                     "ssid": ssid,
-                                    "password": password
+                                    "password": password,
+                                    "other_fields": other_fields,   # list has mac info 
+                                    "raw_line": line
                                 }
+                            else:
+                                # keep additional occurrences if you want
+                                unique_entries[key].setdefault("duplicates", []).append({
+                                    "other_fields": other_fields,
+                                    "raw_line": line
+                                })
 
                 # Convert to sorted list
                 sorted_passwords = sorted(unique_entries.values(), key=lambda x: (x["ssid"].lower(), x["password"]))
@@ -222,4 +244,5 @@ class sorted_pwn(plugins.Plugin):
             except Exception as e:
                 logging.error("[sorted_pwn] error while loading potfiles: %s" % e)
                 logging.debug(e, exc_info=True)
+
                 abort(500)
