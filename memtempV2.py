@@ -14,7 +14,7 @@ import logging
 
 
 class MemTempV2(plugins.Plugin):
-    __author__ = 'https://github.com/xenDE'
+    __author__ = 'xenDE' # https://github.com/xenDE
     __version__ = '0.0.1'
     __editor__ = 'avipars'
     __license__ = 'GPL3'
@@ -200,3 +200,4 @@ class MemTempV2(plugins.Plugin):
                     ui.set('MemTempV2_data', data)
             except Exception as e:
                 logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
+
