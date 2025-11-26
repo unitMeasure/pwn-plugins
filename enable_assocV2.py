@@ -10,7 +10,7 @@ import pwnagotchi.ui.fonts as fonts
 
 class enable_assocV2(plugins.Plugin):
     __author__ = 'evilsocket@gmail.com'
-    __version__ = '1.0.2.1'
+    __version__ = '1.0.2.2'
     __editor__ = '(edited by Sniffleupagus then avipars)'
     __license__ = 'GPL3'
     __description__ = 'Enable and disable ASSOC on the fly. Enabled when plugin loads, disabled when plugin unloads. No Touch screen here'
@@ -30,7 +30,7 @@ class enable_assocV2(plugins.Plugin):
             if self._agent:
                 self._agent._config['personality']['associate'] = False
             ui.remove_element('assoc_count')
-            logging.info("[enable_assocV2] unloading")
+            logging.info(f"[{self.__class__.__name__}] unloading")
         except Exception as e:
             logging.warn(repr(e))
 
@@ -38,7 +38,7 @@ class enable_assocV2(plugins.Plugin):
     def on_ready(self, agent):
         self._agent = agent
         agent._config['personality']['associate'] = True
-        logging.info("[enable_assocV2] ready: enabled association")
+        logging.info(f"[{self.__class__.__name__}] ready: enabled association")
 
 
     def on_association(self, agent, access_point):
@@ -54,10 +54,18 @@ class enable_assocV2(plugins.Plugin):
         else:
             pos = (0,29,30,59)
 
-        ui.add_element('assoc_count', LabeledValue(color=BLACK, label='A', value='0', position=pos,
+        try:
+            ui.add_element('assoc_count', LabeledValue(color=BLACK, label='A', value='0', position=pos,
                                                        label_font=fonts.BoldSmall, text_font=fonts.Small))
+        except Exception as err:
+            logging.info(f"[{self.__class__.__name__}] ui error: {repr(err)}")
 
         # called when the ui is updated
     def on_ui_update(self, ui):
         # update those elements
-        ui.set('assoc_count', "%d" % (self._count))
+
+        try:
+            ui.set('assoc_count', str(self._count))  # Update with current auth count
+        except Exception as err:
+            logging.info(
+                f"[{self.__class__.__name__}] ui error: %s" % repr(err))
