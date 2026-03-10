@@ -47,9 +47,11 @@ Changes: I removed the Touchscreen dependency which removes some log errors when
 
 ### memtempV2:
 
+`main.plugins.memtempV2.position = "x, y"` where x and y are integers
+
 `main.plugins.memtempV2.orientation = "vertical"` or `main.plugins.memtempV2.orientation = "horizontal"`
 
-`main.plugins.memtempV2.linespacing = x` where x is an integer (default is 4)
+`main.plugins.memtempV2.linespacing = x` where x is an integer (default is 10)
 
 `main.plugins.memtempV2.scale = "fahrenheit"` ,  `main.plugins.memtempV2.scale = "celsius"`, or  `main.plugins.memtempV2.scale = "kelvin"` for measuring CPU temperature
 
