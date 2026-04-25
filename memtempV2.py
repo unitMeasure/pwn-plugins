@@ -67,10 +67,13 @@ class MemTempV2(plugins.Plugin):
         return f"{int(non_idle_sum / total * 100)}%"
 
     def cpu_temp(self):
-        if self.options['scale'] == "fahrenheit":
+
+        scal = self.options.get('scale', 'fahrenheit')
+
+        if scal == "fahrenheit":
             temp = (pwnagotchi.temperature(celsius=False))
             symbol = "F"
-        elif self.options['scale'] == "kelvin":
+        elif scal == "kelvin":
             temp = pwnagotchi.temperature() + 273.15
             symbol = "K"
         else:
