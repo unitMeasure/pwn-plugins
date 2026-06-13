@@ -6,10 +6,10 @@ from pwnagotchi.ui.components import LabeledValue
 from pwnagotchi.ui.view import BLACK
 import pwnagotchi.ui.fonts as fonts
 
-# https://github.com/Sniffleupagus/pwnagotchi_plugins/
 class enable_deauthV2(plugins.Plugin):
     __author__ = 'Sniffleupagus'
     __editor__ = 'avipars'
+    __Github__ = 'https://github.com/Sniffleupagus/pwnagotchi_plugins/'
     __version__ = '1.0.1.2'
     __license__ = 'GPL3'
     __description__ = 'Enable and disable DEAUTH on the fly. Enabled when plugin loads, disabled when plugin unloads. No Touch screen here'
@@ -41,7 +41,7 @@ class enable_deauthV2(plugins.Plugin):
             try:
                 ui.remove_element('deauth_count')
             except Exception as e:
-                logging.warn(repr(e))
+                logging.warning(f"[{self.__class__.__name__}] unload error: %s" % repr(err))
 
         logging.info(f"[{self.__class__.__name__}] unloading: disabled deauth")
 

@@ -6,12 +6,12 @@ from pwnagotchi.ui.components import LabeledValue
 from pwnagotchi.ui.view import BLACK
 import pwnagotchi.ui.fonts as fonts
 
-#https://github.com/Sniffleupagus/pwnagotchi_plugins/pull/6
 
 class enable_assocV2(plugins.Plugin):
     __author__ = 'evilsocket@gmail.com'
     __version__ = '1.0.2.2'
     __editor__ = '(edited by Sniffleupagus then avipars)'
+    __Github__ = 'https://github.com/Sniffleupagus/pwnagotchi_plugins/pull/6'
     __license__ = 'GPL3'
     __description__ = 'Enable and disable ASSOC on the fly. Enabled when plugin loads, disabled when plugin unloads. No Touch screen here'
 
@@ -32,7 +32,7 @@ class enable_assocV2(plugins.Plugin):
             ui.remove_element('assoc_count')
             logging.info(f"[{self.__class__.__name__}] unloading")
         except Exception as e:
-            logging.warn(repr(e))
+            logging.warning(f"[{self.__class__.__name__}] unload error: %s" % repr(e))
 
     # called when everything is ready and the main loop is about to start
     def on_ready(self, agent):
@@ -58,14 +58,11 @@ class enable_assocV2(plugins.Plugin):
             ui.add_element('assoc_count', LabeledValue(color=BLACK, label='A', value='0', position=pos,
                                                        label_font=fonts.BoldSmall, text_font=fonts.Small))
         except Exception as err:
-            logging.info(f"[{self.__class__.__name__}] ui error: {repr(err)}")
+            logging.info(f"[{self.__class__.__name__}] ui setup error: {repr(err)}")
 
-        # called when the ui is updated
+    # called when ui is updated
     def on_ui_update(self, ui):
-        # update those elements
-
         try:
-            ui.set('assoc_count', str(self._count))  # Update with current auth count
+            ui.set('assoc_count', str(self._count))  # update with current auth count
         except Exception as err:
-            logging.info(
-                f"[{self.__class__.__name__}] ui error: %s" % repr(err))
+            logging.info(f"[{self.__class__.__name__}] ui update error: %s" % repr(err))

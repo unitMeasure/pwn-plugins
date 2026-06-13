@@ -1,13 +1,11 @@
 import logging
-import json
 import os
 import glob
 
 import pwnagotchi.plugins as plugins
 
-from flask import abort
-from flask import send_from_directory
-from flask import render_template_string
+from flask import abort, send_from_directory, render_template_string
+
 
 TEMPLATE = """
 {% extends "base.html" %}
@@ -25,70 +23,56 @@ TEMPLATE = """
 {% block styles %}
 {{ super() }}
     <style>
-
         #searchText {
             width: 100%;
         }
-
         table {
             table-layout: auto;
             width: 100%;
         }
-
         table, th, td {
             border: 1px solid black;
             border-collapse: collapse;
         }
-
         th, td {
             padding: 15px;
             text-align: left;
         }
-
         table tr:nth-child(even) {
             background-color: #eee;
         }
-
         table tr:nth-child(odd) {
             background-color: #fff;
         }
-
         table th {
             background-color: black;
             color: white;
         }
-
         @media screen and (max-width:700px) {
             table, tr, td {
                 padding:0;
                 border:1px solid black;
             }
-
             table {
                 border:none;
             }
-
             tr:first-child, thead, th {
                 display:none;
                 border:none;
             }
-
             tr {
                 float: left;
                 width: 100%;
                 margin-bottom: 2em;
             }
-
             table tr:nth-child(odd) {
                 background-color: #eee;
             }
-
             td {
                 float: left;
                 width: 100%;
                 padding:1em;
             }
-
             td::before {
                 content:attr(data-label);
                 word-wrap: break-word;
@@ -144,7 +128,6 @@ TEMPLATE = """
             }
         }
     }
-
 {% endblock %}
 
 {% block content %}
@@ -215,7 +198,7 @@ class sorted_pwn(plugins.Plugin):
                             if len(fields) < 2:
                                 continue
 
-                            # to deal with both pwncrack and wpa-sec format
+                            # to deal with pwncrack and wpa-sec format
                             ssid = fields[-2].strip() # 2nd to last
                             password = fields[-1].strip() # last one
                             other_fields = fields[:-2]   # everything before ssid/password
@@ -229,20 +212,17 @@ class sorted_pwn(plugins.Plugin):
                                     "raw_line": line
                                 }
                             else:
-                                # keep additional occurrences if you want
+                                # keep additional occurrences
                                 unique_entries[key].setdefault("duplicates", []).append({
                                     "other_fields": other_fields,
                                     "raw_line": line
                                 })
 
-                # Convert to sorted list
-                sorted_passwords = sorted(unique_entries.values(), key=lambda x: (x["ssid"].lower(), x["password"]))
-
+                sorted_passwords = sorted(unique_entries.values(), key=lambda x: (x["ssid"].lower(), x["password"]))                 # convert to sorted list
                 return render_template_string(TEMPLATE,
                                             title="Unique Passwords List",
                                             passwords=sorted_passwords)
             except Exception as e:
                 logging.error("[sorted_pwn] error while loading potfiles: %s" % e)
                 logging.debug(e, exc_info=True)
-
                 abort(500)
