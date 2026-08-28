@@ -1,11 +1,8 @@
 import logging
 import os
 import glob
-
 import pwnagotchi.plugins as plugins
-
-from flask import abort, send_from_directory, render_template_string
-
+from flask import abort, send_from_directory, render_template_string, request, make_response
 
 TEMPLATE = """
 {% extends "base.html" %}
@@ -132,6 +129,18 @@ TEMPLATE = """
 
 {% block content %}
     <input type="text" id="searchText" placeholder="Search for ..." title="Type in a filter">
+    <div style="margin-bottom:10px;">
+    Sort:
+    {% if order == "asc" %}
+        <strong>Ascending</strong> |
+        <a href="?order=desc">Descending</a>
+    {% else %}
+        <a href="?order=asc">Ascending</a> |
+        <strong>Descending</strong>
+    {% endif %}
+    |
+    <a href="?order={{ order }}&export=1">Export Results</a>
+    </div>
     <table id="tableOptions">
         <tr>
             <th>SSID</th>
@@ -163,7 +172,7 @@ TEMPLATE = """
 class sorted_pwn(plugins.Plugin):
     __author__ = '37124354+dbukovac@users.noreply.github.com'
     __editor__ = 'avipars'
-    __version__ = '0.0.2.2'
+    __version__ = '0.0.3'
     __license__ = 'GPL3'
     __description__ = 'List cracked passwords from any potfile found in the handshakes directory'
     __github__ = 'https://github.com/evilsocket/pwnagotchi-plugins-contrib/blob/df9758065bd672354b3fa2a3299f4a8d80c8fd6a/wpa-sec-list.py'
@@ -177,15 +186,30 @@ class sorted_pwn(plugins.Plugin):
         self.config = config
         self.ready = True
 
+    def decode_hex_field(self, value):
+        """Decode hashcat/potfile $HEX[...] encoded fields to a UTF-8 string.
+        Falls back to the original value if decoding fails."""
+        if isinstance(value, str) and value.startswith("$HEX[") and value.endswith("]"):
+            hex_str = value[5:-1]
+            try:
+                return bytes.fromhex(hex_str).decode("utf-8", errors="replace")
+            except ValueError:
+                return value    # Not valid hex , leave as-is
+        return value
+
     def on_webhook(self, path, request):
         if not self.ready:
             return "Plugin not ready"
 
         if path == "/" or not path:
             try:
+                order = request.args.get("order", "asc").lower()
+                reverse_sort = order == "desc"
+                export = request.args.get("export", "0") == "1"
+                show_other = request.args.get("show_other", "0") == "1" # TODO hide other fields in table if user wants
                 base_dir = self.config['bettercap']['handshakes']
                 potfile_paths = glob.glob(os.path.join(base_dir, "*.potfile"))
-            
+
                 unique_entries = {}
                 for pf_path in potfile_paths:
                     logging.info("[sorted_pwn] trying to open %s" % pf_path)
@@ -198,31 +222,71 @@ class sorted_pwn(plugins.Plugin):
                             if len(fields) < 2:
                                 continue
 
-                            # to deal with pwncrack and wpa-sec format
-                            ssid = fields[-2].strip() # 2nd to last
-                            password = fields[-1].strip() # last one
-                            other_fields = fields[:-2]   # everything before ssid/password
+                            # to deal with both pwncrack and wpa-sec format
+                            ssid = self.decode_hex_field(fields[-2].strip())      # 2nd to last
+                            password = self.decode_hex_field(fields[-1].strip()) # last one
+                            other_fields = fields[:-2]   # everything before ssid/password (bssid, client)
 
                             key = (ssid, password)
                             if key not in unique_entries:
                                 unique_entries[key] = {
                                     "ssid": ssid,
                                     "password": password,
-                                    "other_fields": other_fields,   # list has mac info 
-                                    "raw_line": line
+                                    "other_fields": other_fields,   # list of other fields usually bssid etc.
                                 }
-                            else:
-                                # keep additional occurrences
-                                unique_entries[key].setdefault("duplicates", []).append({
-                                    "other_fields": other_fields,
-                                    "raw_line": line
+                            else: # keep additional occurrences if you want
+                                unique_entries[key].setdefault("duplicates", []).append({ 
+                                    "other_fields": other_fields   
                                 })
 
-                sorted_passwords = sorted(unique_entries.values(), key=lambda x: (x["ssid"].lower(), x["password"]))                 # convert to sorted list
-                return render_template_string(TEMPLATE,
-                                            title="Unique Passwords List",
-                                            passwords=sorted_passwords)
+                sorted_passwords = sorted(unique_entries.values(), key=lambda x: (x["ssid"].lower(), x["password"]), reverse=reverse_sort)  # Convert to sorted list
+
+                html = render_template_string(
+                    TEMPLATE,
+                    title="Unique Passwords List",
+                    passwords=sorted_passwords,
+                    order=order
+                )
+
+                if export:
+                    lines = []
+                    lines.append("SSID\tPassword\tOther")
+
+                    for p in sorted_passwords:
+
+                        if show_other:
+                            other = p.get("other_fields")
+                            if isinstance(other, list):
+                                other = ", ".join(other)
+
+                            lines.append(
+                                "%s:%s:%s" % (
+                                    p.get("ssid", ""),
+                                    p.get("password", ""),
+                                    other or ""
+                                )
+                            )
+                        else:
+                                lines.append(
+                                "%s:%s" % (
+                                    p.get("ssid", ""),
+                                    p.get("password", ""),
+                                )
+                            )
+
+                    txt_data = "\n".join(lines)
+
+                    response = make_response(txt_data)
+                    response.headers["Content-Type"] = "text/plain; charset=utf-8"
+                    response.headers["Content-Disposition"] = (
+                        "attachment; filename=sorted_pwn_passwords_%s.txt" % order
+                    )
+                    return response
+                return html
+
+              
             except Exception as e:
                 logging.error("[sorted_pwn] error while loading potfiles: %s" % e)
                 logging.debug(e, exc_info=True)
                 abort(500)
+
