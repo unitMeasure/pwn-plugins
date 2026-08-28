@@ -212,7 +212,6 @@ class sorted_pwn(plugins.Plugin):
 
                 unique_entries = {}
                 for pf_path in potfile_paths:
-                    logging.info("[sorted_pwn] trying to open %s" % pf_path)
                     with open(pf_path, "r", encoding="utf-8", errors="ignore") as f:
                         for line in f:
                             line = line.strip()
@@ -289,4 +288,3 @@ class sorted_pwn(plugins.Plugin):
                 logging.error("[sorted_pwn] error while loading potfiles: %s" % e)
                 logging.debug(e, exc_info=True)
                 abort(500)
-

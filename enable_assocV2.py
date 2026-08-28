@@ -66,3 +66,4 @@ class enable_assocV2(plugins.Plugin):
             ui.set('assoc_count', str(self._count))  # update with current auth count
         except Exception as err:
             logging.info(f"[{self.__class__.__name__}] ui update error: %s" % repr(err))
+    
