@@ -79,9 +79,21 @@ Changes: I removed GPS dependency and fixed issues with non-GPS setups (from pri
 
 ### probeReq:
 
-No configuration options at the moment, there will be more options in a future update (position, more details, etc)
-
 Changes: I created this plugin from scratch to show wi-fi probe requests on screen and log them.
+
+Optional config changes
+
+`main.plugins.probeReq.pos_x = 0`
+
+`main.plugins.probeReq.pos_y = 63`
+
+`main.plugins.probeReq.logging = true` 
+
+- logs the probe requests 
+
+`main.plugins.probeReq.verbose = true`
+
+- shows vendor name, mac address
 
 ### sorted_pwn:
 
