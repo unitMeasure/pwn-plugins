@@ -1,5 +1,5 @@
-# https://github.com/V0r-T3x/pwnagotchi_plugins/pull/6
 """
+https://github.com/V0r-T3x/pwnagotchi_plugins/pull/6
 Special thanks to Dal/FikolmijReturns
 for his network-fix service.
 
@@ -112,5 +112,4 @@ class fix_region(plugins.Plugin):
         os.system("sudo systemctl disable network-fix")
 
     def on_webhook(self, path, request):
-        # maybe provide more info, but this is ok for now
         return f"<html><head><title>fix_region</title></head><body><p>Current Region: {REGION}</p></body></html>"

@@ -67,7 +67,6 @@ class MemTempV2(plugins.Plugin):
         return f"{int(non_idle_sum / total * 100)}%"
 
     def cpu_temp(self):
-
         scal = self.options.get('scale', 'fahrenheit')
 
         if scal == "fahrenheit":
@@ -77,8 +76,7 @@ class MemTempV2(plugins.Plugin):
             temp = pwnagotchi.temperature() + 273.15
             symbol = "K"
         else:
-            # default to celsius
-            temp = pwnagotchi.temperature()
+            temp = pwnagotchi.temperature()  # default to celsius
             symbol = "C"
         return f"{temp}{symbol}"
 
@@ -203,4 +201,3 @@ class MemTempV2(plugins.Plugin):
                     ui.set('MemTempV2_data', data)
             except Exception as e:
                 logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
-

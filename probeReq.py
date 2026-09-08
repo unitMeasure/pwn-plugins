@@ -69,7 +69,6 @@ class probeReq(plugins.Plugin):
 
             logging.info(f"[{self.__class__.__name__}] pos_x {self.pos_x} pos_y {self.pos_y}")
   
-          
             ui.add_element(
                 "pr_status",
                 Text(
