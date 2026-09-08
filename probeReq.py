@@ -1,18 +1,40 @@
 import logging
+from PIL import ImageFont
 import pwnagotchi.plugins as plugins
-import pwnagotchi.ui.fonts as fonts
-from pwnagotchi.ui.components import Text, Line, LabeledValue
+from pwnagotchi.ui.components import Text
 from pwnagotchi.ui.view import BLACK
 from pwnagotchi.bettercap import Client
-from PIL import ImageFont
+
+def load_font():
+    """Load the smallest suitable font, with fallbacks."""
+    font_paths = [
+        "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf",
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+        "/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf",
+    ]
+
+    for path in font_paths:
+        try:
+            font = ImageFont.truetype(path, 8)
+            logging.info("[probeReq] Using font: %s", path)
+            return font
+        except (OSError, IOError) as e:
+            logging.debug("[probeReq] Could not load font %s: %s", path, e)
+
+    # Final fallback to Pwnagotchi's built-in font
+    logging.warning("[probeReq] No system font found, using pwnagotchi fonts.Small")
+    return fonts.Small
+
+
+_TINY_FONT = load_font() # Load a font directly instead of using fonts.Small, to control  exact pixel size
 
 class probeReq(plugins.Plugin):
     __GitHub__ = "https://github.com/unitMeasure/pwn-plugins/"
     __author__ = "avipars"
     __editor__ = "avipars"
-    __version__ = "0.0.0.4" # from 2.3 beta
+    __version__ = "0.0.5"
     __license__ = "GPL3"
-    __description__ = "Listens for Wi-Fi probe requests, displays them on screen and logs them."
+    __description__ = "BETA Listens for Wi-Fi probe requests, displays them on screen and logs them."
     __name__ = "probeReq"
     __defaults__ = {
         "enabled": False,
@@ -26,7 +48,7 @@ class probeReq(plugins.Plugin):
         self.running = True
         self.pr_status = "Waiting"
         self.pos_x = 0
-        self.pos_y = 75
+        self.pos_y = 70
         self.show_verbose = False
         self.log_results = False
         
@@ -43,10 +65,20 @@ class probeReq(plugins.Plugin):
             if "pos_x" in self.options:
                 self.pos_x = int(self.options.get("pos_x", 0))
             if "pos_y" in self.options:
-                self.pos_y = int(self.options.get("pos_y", 75))
+                self.pos_y = int(self.options.get("pos_y", 70))
 
             logging.info(f"[{self.__class__.__name__}] pos_x {self.pos_x} pos_y {self.pos_y}")
-            ui.add_element("pr_status", LabeledValue(color=BLACK, value="---", position=(self.pos_x, self.pos_y), label_font=fonts.Small, text_font=fonts.Small))
+  
+          
+            ui.add_element(
+                "pr_status",
+                Text(
+                    color=BLACK,
+                    value="Active",
+                    position=(self.pos_x, self.pos_y),
+                    font=_TINY_FONT,
+                ),)
+        
         except Exception as e:
             logging.debug(f"[{self.__class__.__name__}]: Error on_ui_setup: {e}")
 
@@ -56,17 +88,17 @@ class probeReq(plugins.Plugin):
     def on_bcap_wifi_client_probe(self, agent, event):
         """WIFI CLIENT PROBE REQUEST"""
         if not self.running:
-            if "logging" in self.options and self.options["logging"]:
+            if self.log_results:
                 logging.info(f"[{self.__class__.__name__}]: plugin stopped running")
             return
 
         probe = event["data"]
-        d_name = probe["essid"]
+        d_name = (probe.get('essid') or '')[:16] # essid truncated
+        
         if self.log_results:
             logging.info(f"[{self.__class__.__name__}]: Probe %s" % (probe))
-
         
-        stat = "pr:%s" % d_name[0:20] # limit essid to 20 chars
+        stat = "pr:%s" % d_name # limit essid to 20 chars
         if self.show_verbose:
             stat += " rssi:%s" % probe["rssi"]
             vend = probe["vendor"]
@@ -78,7 +110,6 @@ class probeReq(plugins.Plugin):
         
         self.pr_status = stat
        
-
     def on_unload(self, ui):
         self.running = False
         with ui._lock:
